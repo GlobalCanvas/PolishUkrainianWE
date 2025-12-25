@@ -1,122 +1,81 @@
 // ==UserScript==
-// @name         Pu puwe Bot
-// @version      1.0.0
+// @name         PuBot для pixunivers.fun
+// @version      1.0.3
 // @author       Darkness Remaked by Puwe
-// @description  Bot for pixunivers.fun
+// @description  Bot для pixunivers.fun (упрощенная версия)
+// @icon         https://raw.githubusercontent.com/TouchedByDarkness/PixelPlanet-Bot/master/rounded-avatar-128.png
+// @grant        GM_xmlhttpRequest
+// @grant        GM_openInTab
+// @grant        unsafeWindow
+// @run-at       document-start
+// @require      https://touchedbydarkness.github.io/stuff/ppf_bot_2/initer.user.js
 // @connect      pixunivers.fun
 // @match        *://*.pixunivers.fun/*
 // ==/UserScript==
 
-// ========================================
-// ИЗМЕНЕНИЕ 1: Создайте класс API для pixunivers.fun
-// Вставьте этот код перед функцией En (около строки 2200-2300)
-// ========================================
-
-const PixuniversAPI = class extends nn {
-    constructor(){
-        super(...arguments);
-        // Используйте базовый протокол или адаптируйте под pixunivers
-        this.packets = xe;
-    }
+(function() {
+    'use strict';
     
-    getWsUrl(){
-        // WebSocket URL для pixunivers.fun
-        return location.origin.replace("http","ws")+"/ws";
-    }
+    console.log('🔧 Патчинг для pixunivers.fun...');
     
-    getChunkUrl(coords){
-        // URL для загрузки чанков
-        return `${location.origin}/chunks/${this.canvasId}/${coords[0]}/${coords[1]}.bmp`;
-    }
-    
-    static async fetchSiteCanvases(){
-        // Получение списка канвасов
-        let response = await fetch(location.origin+"/api/canvases");
-        let {canvases} = await response.json();
-        return {canvases};
-    }
-    
-    static async build(canvasId){
-        let canvasesData = await this.getMe();
-        let instance = new this({canvasId});
-        instance.info = ke(canvasesData.canvases[canvasId]);
-        await instance.ws.connect();
-        return instance;
-    }
-    
-    static async getMe(){
-        if(!this.me) {
-            this.me = await this.fetchSiteCanvases();
+    // Ждём загрузки оригинального скрипта
+    setTimeout(() => {
+        if (typeof unsafeWindow.nn === 'undefined') {
+            console.error('❌ Оригинальный скрипт не загрузился');
+            return;
         }
-        return this.me;
-    }
-    
-    static async getCanvasIdByCanvasIdent(ident){
-        let canvasesData = await this.getMe();
-        for(let[id, canvas] of Object.entries(canvasesData.canvases)) {
-            if(canvas.ident === ident) return +id;
+        
+        const nn = unsafeWindow.nn;
+        const xe = unsafeWindow.xe;
+        const ke = unsafeWindow.ke;
+        const sn = unsafeWindow.sn;
+        
+        // Создаём API для pixunivers
+        class PixuniversAPI extends nn {
+            getWsUrl() {
+                return location.origin.replace(/^http/, 'ws') + '/ws';
+            }
+            
+            getChunkUrl(coords) {
+                return `${location.origin}/chunks/${this.canvasId}/${coords[0]}/${coords[1]}.bmp`;
+            }
+            
+            static async fetchSiteCanvases() {
+                const r = await fetch(location.origin + '/api/me');
+                return await r.json();
+            }
+            
+            static async build(canvasId) {
+                const data = await this.getMe();
+                const instance = new this({ canvasId });
+                instance.info = ke(data.canvases[canvasId]);
+                await instance.ws.connect();
+                return instance;
+            }
+            
+            static async getMe() {
+                if (!this.me) this.me = await this.fetchSiteCanvases();
+                return this.me;
+            }
+            
+            static async getCanvasIdByCanvasIdent(ident) {
+                const data = await this.getMe();
+                for (const [id, canvas] of Object.entries(data.canvases)) {
+                    if (canvas.ident === ident) return +id;
+                }
+                throw new Error('Canvas not found');
+            }
         }
-        throw new Error(`No canvas found for ident: ${ident}`);
-    }
-}
-
-// ========================================
-// ИЗМЕНЕНИЕ 2: Модифицируйте функцию En
-// Найдите функцию En (около строки 2300-2400) и замените на:
-// ========================================
-
-En = async () => {
-    // ТОЛЬКО для pixunivers.fun
-    if(/.*:\/\/.*pixunivers\.fun.*/.test(location.origin)){
-        let hashMatch = location.hash.match(/#[a-z]/g);
-        let canvasChar = hashMatch ? hashMatch[0][1] : "d";
-        let canvasId = await PixuniversAPI.getCanvasIdByCanvasIdent(canvasChar);
         
-        console.log("🎨 Pixunivers.fun detected, canvas:", canvasChar);
+        // Переопределяем En
+        unsafeWindow.En = async () => {
+            const char = (location.hash.match(/#([a-z])/) || [])[1] || 'd';
+            const id = await PixuniversAPI.getCanvasIdByCanvasIdent(char);
+            return [await PixuniversAPI.build(id), await sn()];
+        };
         
-        return Promise.all([
-            PixuniversAPI.build(canvasId),
-            sn() // canvas state API
-        ]);
-    }
+        console.log('✅ Патч применён');
+        
+    }, 1000);
     
-    // Если не pixunivers.fun - выбросить ошибку
-    throw new Error("This bot works only on pixunivers.fun");
-}
-
-// ========================================
-// ИЗМЕНЕНИЕ 3: Опциональные настройки протокола
-// Если pixunivers использует другой протокол, раскомментируйте:
-// ========================================
-
-/*
-// Если нужен специальный класс пакетов:
-const PixuniversPackets = class extends xe {
-    // Переопределите методы если нужно
-    static serializePixelUpdate(i, j, pixels){
-        // Ваша реализация
-        return super.serializePixelUpdate(i, j, pixels);
-    }
-}
-
-// И используйте в PixuniversAPI:
-// this.packets = PixuniversPackets;
-*/
-
-// ========================================
-// ИНСТРУКЦИЯ ПО ПРИМЕНЕНИЮ:
-// ========================================
-/*
-1. Скопируйте изменения выше в ваш оригинальный файл
-2. Найдите функцию En в оригинале (используйте Ctrl+F "En=async")
-3. Замените её на версию из ИЗМЕНЕНИЕ 2
-4. Вставьте класс PixuniversAPI перед функцией En
-5. Обновите @match и @connect в начале файла
-6. Сохраните и перезагрузите страницу на pixunivers.fun
-
-ВАЖНО:
-- Протестируйте на devtools (F12), проверьте консоль на ошибки
-- Если WebSocket не подключается - проверьте getWsUrl()
-- Если не загружаются чанки - проверьте getChunkUrl()
-- Возможно потребуется адаптировать протокол пакетов
-*/
+})();
