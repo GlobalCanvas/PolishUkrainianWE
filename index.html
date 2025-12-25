@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chaos by Puwe - Scripts</title>
+  <style>
+    /* ========================================================================
+       ПЕРЕМЕННЫЕ И СБРОС
+       ======================================================================== */
+    *, :after, :before {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      box-sizing: border-box;
+      border: 0 solid #e5e7eb;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ========================================================================
+       БАЗОВЫЕ СТИЛИ
+       ======================================================================== */
+    html {
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      height: 100%;
+      overflow: hidden;
+      overflow-wrap: break-word;
+    }
+
+    body {
+      margin: 0;
+      line-height: inherit;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      background-attachment: fixed;
+      color: #ffffff;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Скрытие скроллбара */
+    *::-webkit-scrollbar { display: none; }
+
+    /* ========================================================================
+       ЗАГОЛОВОК
+       ======================================================================== */
+    header {
+      text-align: center;
+      padding: 2rem 0;
+      border-bottom: 2px solid rgba(0, 191, 255, 0.3);
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #00bfff;
+      text-shadow: 0 0 20px rgba(0, 191, 255, 0.8), 0 0 40px rgba(0, 191, 255, 0.4);
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 20px rgba(0, 191, 255, 0.8), 0 0 40px rgba(0, 191, 255, 0.4); }
+      to { text-shadow: 0 0 30px rgba(0, 191, 255, 1), 0 0 60px rgba(0, 191, 255, 0.6); }
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    nav a {
+      color: #00bfff;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border: 2px solid #00bfff;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+    }
+
+    nav a:hover {
+      background: rgba(0, 191, 255, 0.2);
+      text-shadow: 0 0 20px rgba(0, 191, 255, 1);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
+    }
+
+    /* ========================================================================
+       ОСНОВНОЙ КОНТЕНТ
+       ======================================================================== */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    /* ========================================================================
+       КАРТОЧКА СКРИПТА
+       ======================================================================== */
+    .script-card {
+      background: rgba(10, 10, 15, 0.95);
+      border: 2px solid rgba(0, 191, 255, 0.4);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 191, 255, 0.1);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .script-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 191, 255, 0.1) 0%, transparent 70%);
+      animation: rotate 10s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .script-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 191, 255, 0.8);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 191, 255, 0.3);
+    }
+
+    .script-image {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 15px;
+      border: 2px solid rgba(0, 191, 255, 0.3);
+      margin: 0 auto 1.5rem;
+      display: block;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .script-image:hover {
+      border-color: rgba(0, 191, 255, 0.8);
+      box-shadow: 0 10px 30px rgba(0, 191, 255, 0.3);
+      transform: scale(1.02);
+    }
+
+    .script-info {
+      position: relative;
+      z-index: 1;
+    }
+
+    .script-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #00bfff;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px rgba(0, 191, 255, 0.6);
+    }
+
+    .info-row {
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .info-label {
+      color: #00bfff;
+      font-weight: 600;
+      display: inline-block;
+      min-width: 140px;
+      text-shadow: 0 0 8px rgba(0, 191, 255, 0.5);
+    }
+
+    .info-value {
+      color: #ffffff;
+    }
+
+    .info-value a {
+      color: #00bfff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px rgba(0, 191, 255, 0.4);
+    }
+
+    .info-value a:hover {
+      text-shadow: 0 0 15px rgba(0, 191, 255, 1);
+      color: #66d9ff;
+    }
+
+    /* ========================================================================
+       СЕКЦИЯ УСТАНОВКИ
+       ======================================================================== */
+    .installation {
+      background: rgba(0, 191, 255, 0.05);
+      border-left: 4px solid #00bfff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .installation h3 {
+      color: #00bfff;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+    }
+
+    .installation ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .installation li {
+      margin-bottom: 0.75rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .installation li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: #00bfff;
+      font-size: 1.2rem;
+    }
+
+    .install-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #00bfff 0%, #0080ff 100%);
+      color: #ffffff;
+      padding: 0.75rem 2rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      box-shadow: 0 5px 20px rgba(0, 191, 255, 0.3);
+      margin-top: 1rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .install-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 191, 255, 0.5);
+      border-color: #ffffff;
+      background: linear-gradient(135deg, #66d9ff 0%, #3399ff 100%);
+    }
+
+    .install-button:active {
+      transform: translateY(0);
+      box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+    }
+
+    /* ========================================================================
+       FOOTER
+       ======================================================================== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      border-top: 2px solid rgba(0, 191, 255, 0.3);
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    footer p {
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    /* ========================================================================
+       ЧАСТИЦЫ НА ФОНЕ
+       ======================================================================== */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(0, 191, 255, 0.6);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+      }
+    }
+
+    /* ========================================================================
+       КНОПКИ ЯЗЫКА
+       ======================================================================== */
+    .lang-switcher {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .lang-btn {
+      background: rgba(0, 191, 255, 0.2);
+      color: #00bfff;
+      border: 1px solid #00bfff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(0, 191, 255, 0.3);
+    }
+
+    .lang-btn:hover {
+      background: rgba(0, 191, 255, 0.4);
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+    }
+
+    .lang-btn.active {
+      background: rgba(0, 191, 255, 0.5);
+      box-shadow: 0 0 10px rgba(0, 191, 255, 0.4);
+    }
+
+    /* ========================================================================
+       АДАПТИВНОСТЬ
+       ======================================================================== */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      nav a {
+        font-size: 1.2rem;
+      }
+
+      .script-card {
+        padding: 1.5rem;
+      }
+
+      .script-title {
+        font-size: 1.5rem;
+      }
+
+      .info-label {
+        min-width: 100px;
+      }
+
+      .lang-switcher {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Частицы на фоне -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Заголовок -->
+  <header>
+    <h1>Chaos by Puwe</h1>
+    <nav>
+      <a href="#home" data-en="<home>" data-ru="<главная>" data-uk="<головна>" data-pl="<główna>">&lt;home&gt;</a>
+      <a href="#scripts" data-en="<scripts>" data-ru="<скрипты>" data-uk="<скрипти>" data-pl="<skrypty>">&lt;scripts&gt;</a>
+    </nav>
+    
+    <!-- Переключатель языка -->
+    <div class="lang-switcher">
+      <button onclick="changeLang('en')" class="lang-btn">EN</button>
+      <button onclick="changeLang('ru')" class="lang-btn">RU</button>
+      <button onclick="changeLang('uk')" class="lang-btn">UK</button>
+      <button onclick="changeLang('pl')" class="lang-btn">PL</button>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <main id="scripts">
+    <!-- Карточка скрипта PuBot -->
+    <article class="script-card">
+      <img 
+        src="https://via.placeholder.com/400x200/0a0a0f/00bfff?text=PuBot+Screenshot" 
+        alt="PuBot Preview" 
+        class="script-image"
+      >
+      
+      <div class="script-info">
+        <h2 class="script-title">PuBot</h2>
+        
+        <div class="info-row">
+          <span class="info-label" data-en="Target site" data-ru="Целевой сайт" data-uk="Цільовий сайт" data-pl="Strona docelowa">Target site</span>
+          <span class="info-value">
+            <a href="https://pixunivers.fun" target="_blank">pixunivers.fun</a>
+          </span>
+        </div>
+        
+        <div class="info-row">
+          <span class="info-label" data-en="Author" data-ru="Автор" data-uk="Автор" data-pl="Autor">Author</span>
+          <span class="info-value">Darkness Remaked by Puwe</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="info-label" data-en="Description" data-ru="Описание" data-uk="Опис" data-pl="Opis">Description</span>
+          <span class="info-value" data-en="Advanced bot for pixunivers.fun with smart placement strategies and template system." data-ru="Продвинутый бот для pixunivers.fun с умными стратегиями размещения и системой шаблонов." data-uk="Розширений бот для pixunivers.fun з розумними стратегіями розміщення та системою шаблонів." data-pl="Zaawansowany bot dla pixunivers.fun z inteligentnymi strategiami umieszczania i systemem szablonów.">Advanced bot for pixunivers.fun with smart placement strategies and template system.</span>
+        </div>
+        
+        <div class="installation">
+          <h3 data-en="Installation" data-ru="Установка" data-uk="Встановлення" data-pl="Instalacja">Installation</h3>
+          <ul>
+            <li><span data-en="Download Tampermonkey or Violentmonkey" data-ru="Скачайте Tampermonkey или Violentmonkey" data-uk="Завантажте Tampermonkey або Violentmonkey" data-pl="Pobierz Tampermonkey lub Violentmonkey">Download</span> <a href="https://www.tampermonkey.net/" target="_blank">Tampermonkey</a> <span data-en="or" data-ru="или" data-uk="або" data-pl="lub">or</span> <a href="https://violentmonkey.github.io/" target="_blank">Violentmonkey</a></li>
+            <li data-en="Click the install button below" data-ru="Нажмите кнопку установки ниже" data-uk="Натисніть кнопку встановлення нижче" data-pl="Kliknij przycisk instalacji poniżej">Click the install button below</li>
+            <li data-en="Confirm installation in your userscript manager" data-ru="Подтвердите установку в менеджере скриптов" data-uk="Підтвердіть встановлення в менеджері скриптів" data-pl="Potwierdź instalację w menedżerze skryptów">Confirm installation in your userscript manager</li>
+            <li><span data-en="Visit pixunivers.fun and enjoy!" data-ru="Посетите pixunivers.fun и наслаждайтесь!" data-uk="Відвідайте pixunivers.fun та насолоджуйтесь!" data-pl="Odwiedź pixunivers.fun i ciesz się!">Visit</span> <a href="https://pixunivers.fun" target="_blank">pixunivers.fun</a> <span data-en="and enjoy!" data-ru="и наслаждайтесь!" data-uk="та насолоджуйтесь!" data-pl="i ciesz się!">and enjoy!</span></li>
+          </ul>
+          <a href="/stuffs/PuBot/Inter.user.js" class="install-button" data-en="Install Script" data-ru="Установить скрипт" data-uk="Встановити скрипт" data-pl="Zainstaluj skrypt">Install Script</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p data-en="Made with ❤️ by Puwe | Check back monthly for updates" data-ru="Сделано с ❤️ by Puwe | Проверяйте обновления ежемесячно" data-uk="Зроблено з ❤️ by Puwe | Перевіряйте оновлення щомісяця" data-pl="Stworzone z ❤️ by Puwe | Sprawdzaj aktualizacje co miesiąc">Made with ❤️ by Puwe | Check back monthly for updates</p>
+  </footer>
+
+  <script>
+    // Система переводов
+    let currentLang = 'en';
+    
+    function changeLang(lang) {
+      currentLang = lang;
+      
+      // Переводим все элементы с data-атрибутами
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const translation = el.getAttribute(`data-${lang}`);
+        if (translation) {
+          el.textContent = translation;
+        }
+      });
+      
+      // Сохраняем выбранный язык
+      localStorage.setItem('selectedLang', lang);
+      
+      // Подсвечиваем активную кнопку
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.background = 'rgba(0, 191, 255, 0.2)';
+        btn.style.transform = 'scale(1)';
+      });
+      
+      // Находим и подсвечиваем активную кнопку
+      const activeBtn = Array.from(document.querySelectorAll('.lang-btn')).find(
+        btn => btn.textContent === lang.toUpperCase()
+      );
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.style.background = 'rgba(0, 191, 255, 0.5)';
+      }
+    }
+    
+    // Загружаем сохраненный язык при загрузке страницы
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('selectedLang') || 'en';
+      changeLang(savedLang);
+    });
+
+    // Генерация частиц на фоне
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 4 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    createParticles();
+
+    // Плавная прокрутка к якорям
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+    
+    // Hover эффект для кнопок языка
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('mouseenter', function() {
+        if (!this.classList.contains('active')) {
+          this.style.background = 'rgba(0, 191, 255, 0.4)';
+        }
+        this.style.transform = 'scale(1.05)';
+        this.style.boxShadow = '0 0 15px rgba(0, 191, 255, 0.5)';
+      });
+      
+      btn.addEventListener('mouseleave', function() {
+        if (!this.classList.contains('active')) {
+          this.style.background = 'rgba(0, 191, 255, 0.2)';
+        }
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = 'none';
+      });
+    });
+  </script>
+</body>
+  </html>
